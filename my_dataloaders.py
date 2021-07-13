@@ -9,6 +9,29 @@ import numpy as np
 import torchvision
 import scipy.ndimage
 
+from os import listdir
+from os.path import isfile, join
+
+path_train = r"/content/drive/My Drive/UNODEdatasets/images/images"
+path_val = r"/content/drive/MyDrive/UNODEdatasets/images_val"
+path_test = r"/content/drive/MyDrive/UNODEdatasets/images_test"
+
+onlyfiles = [f for f in listdir(path_train) if isfile(join(path_train, f))]
+onlyfiles_val = [f for f in listdir(path_val) if isfile(join(path_val, f))] 
+onlyfiles_test = [f for f in listdir(path_test) if isfile(join(path_test, f))] 
+
+## Lo siguiente solo se hace para el training set que por alguna razón tiene imágenes con otro formato
+# quitamos las imágenes que tienen otro formato: 
+strange_train_idx = ([2052,
+                        2058,
+                        2071,
+                        2076,
+                        2088,
+                        2089])
+strange_train_idx = strange_train_idx[::-1]
+for idx in strange_train_idx:
+    onlyfiles.pop(idx)
+
 cv2.setNumThreads(0)
 
 class GLaSDataLoader2(object):
