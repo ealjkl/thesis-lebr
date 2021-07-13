@@ -273,8 +273,8 @@ class ConvBlock(nn.Sequential):
             out_channels (int): number of output filters for the last layer
         """
         super().__init__(
-            nn.Conv2d(in_channels, out_channels, 3), nn.ReLU(inplace=True),
-            nn.Conv2d(out_channels, out_channels, 3), nn.ReLU(inplace=True),
+            nn.Conv2d(in_channels, out_channels, 3, padding=1), nn.ReLU(inplace=True),
+            nn.Conv2d(out_channels, out_channels, 3, padding=1), nn.ReLU(inplace=True),
         )
 
 class LevelBlock(nn.Module):
