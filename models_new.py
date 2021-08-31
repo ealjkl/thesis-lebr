@@ -21,7 +21,7 @@ class ConvODEFunc(nn.Module):
         self.nfe = 0  # Number of function evaluations
 
         if time_dependent:
-            self.norm1 = nn.InstanceNorm2d(nf)
+            self.norm1 = nn.InstanceNorm2d(nf) 
             self.conv1 = Conv2dTime(nf, nf, kernel_size=3, stride=1, padding=1)
             self.norm2 = nn.InstanceNorm2d(nf)
             self.conv2 = Conv2dTime(nf, nf, kernel_size=3, stride=1, padding=1)
