@@ -55,7 +55,7 @@ class ConvODEUNet(nn.Module):
     def __init__(self, num_filters, output_dim=1, time_dependent=False,
                  non_linearity='softplus', tol=1e-3, adjoint=False):
         """
-        ConvODEUNet (U-Node in paper)
+        UNODE con droppout.  
 
         Args:
             num_filters (int): number of filters for first conv layer
@@ -113,41 +113,41 @@ class ConvODEUNet(nn.Module):
         x = self.non_linearity(self.input_1x1(x))
 
         features1 = self.odeblock_down1(x)  # 512
-        x = self.non_linearity(self.conv_down1_2(features1))
+        x = self.non_linearity(nn.Dropout2d(0.5)(self.conv_down1_2(features1)))
         x = nn.functional.interpolate(x, scale_factor=0.5, mode='bilinear', align_corners=False)
 
         features2 = self.odeblock_down2(x)  # 256
-        x = self.non_linearity(self.conv_down2_3(features2))
+        x = self.non_linearity(nn.Dropout2d(0.5)(self.conv_down2_3(features2)))
         x = nn.functional.interpolate(x, scale_factor=0.5, mode='bilinear', align_corners=False)
 
         features3 = self.odeblock_down3(x)  # 128
-        x = self.non_linearity(self.conv_down3_4(features3))
+        x = self.non_linearity(nn.Dropout2d(0.5)(self.conv_down3_4(features3)))
         x = nn.functional.interpolate(x, scale_factor=0.5, mode='bilinear', align_corners=False)
 
         features4 = self.odeblock_down4(x)  # 64
-        x = self.non_linearity(self.conv_down4_embed(features4))
+        x = self.non_linearity(nn.Dropout2d(0.5)(self.conv_down4_embed(features4)))
         x = nn.functional.interpolate(x, scale_factor=0.5, mode='bilinear', align_corners=False)
 
         x = self.odeblock_embedding(x)  # 32
 
         x = nn.functional.interpolate(x, scale_factor=2, mode='bilinear', align_corners=False)
         x = torch.cat((x, features4), dim=1)
-        x = self.non_linearity(self.conv_up_embed_1(x))
+        x = self.non_linearity(nn.Dropout2d(0.5)(self.conv_up_embed_1(x)))
         x = self.odeblock_up1(x)
 
         x = nn.functional.interpolate(x, scale_factor=2, mode='bilinear', align_corners=False)
         x = torch.cat((x, features3), dim=1)
-        x = self.non_linearity(self.conv_up1_2(x))
+        x = self.non_linearity(nn.Dropout2d(0.5)(self.conv_up1_2(x)))
         x = self.odeblock_up2(x)
 
         x = nn.functional.interpolate(x, scale_factor=2, mode='bilinear', align_corners=False)
         x = torch.cat((x, features2), dim=1)
-        x = self.non_linearity(self.conv_up2_3(x))
+        x = self.non_linearity(nn.Dropout2d(0.5)((self.conv_up2_3(x)))
         x = self.odeblock_up3(x)
 
         x = nn.functional.interpolate(x, scale_factor=2, mode='bilinear', align_corners=False)
         x = torch.cat((x, features1), dim=1)
-        x = self.non_linearity(self.conv_up3_4(x))
+        x = self.non_linearity(nn.Dropout2d(0.5)(self.conv_up3_4(x)))
         x = self.odeblock_up4(x)
 
         pred = self.classifier(x)
