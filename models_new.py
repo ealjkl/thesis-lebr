@@ -142,7 +142,7 @@ class ConvODEUNet(nn.Module):
 
         x = nn.functional.interpolate(x, scale_factor=2, mode='bilinear', align_corners=False)
         x = torch.cat((x, features2), dim=1)
-        x = self.non_linearity(nn.Dropout2d(0.5)((self.conv_up2_3(x)))
+        x = self.non_linearity(nn.Dropout2d(0.5)((self.conv_up2_3(x))))
         x = self.odeblock_up3(x)
 
         x = nn.functional.interpolate(x, scale_factor=2, mode='bilinear', align_corners=False)
