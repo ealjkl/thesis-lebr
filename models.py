@@ -9,7 +9,6 @@ class ConvODEFunc(nn.Module):
     def __init__(self, nf, time_dependent=False, non_linearity='relu'):
         """
         Block for ConvODEUNet
-
         Args:
             nf (int): number of filters for the conv layers
             time_dependent (bool): whether to concat the time as a feature map before the convs
@@ -55,7 +54,6 @@ class ConvODEUNet(nn.Module):
                  non_linearity='softplus', tol=1e-3, adjoint=False):
         """
         ConvODEUNet (U-Node in paper)
-
         Args:
             num_filters (int): number of filters for first conv layer
             output_dim (int): how many feature maps the network outputs
@@ -156,7 +154,6 @@ class ConvResFunc(nn.Module):
     def __init__(self, num_filters, non_linearity='relu'):
         """
         Block for ConvResUNet
-
         Args:
             num_filters (int): number of filters for the conv layers
             non_linearity (str): which non_linearity to use (for options see get_nonlinearity)
@@ -183,7 +180,6 @@ class ConvResUNet(nn.Module):
     def __init__(self, num_filters, output_dim=1, non_linearity='softplus'):
         """
         ConvResUNet (U-Node in paper)
-
         Args:
             num_filters (int): number of filters for first conv layer
             output_dim (int): how many feature maps the network outputs
@@ -267,21 +263,19 @@ class ConvBlock(nn.Sequential):
     def __init__(self, in_channels, out_channels):
         """
         Block for LevelBlock
-
         Args:
             in_channels (int): number of input filters for first conv layer
             out_channels (int): number of output filters for the last layer
         """
         super().__init__(
-            nn.Conv2d(in_channels, out_channels, 3, padding=1), nn.ReLU(inplace=True),
-            nn.Conv2d(out_channels, out_channels, 3, padding=1), nn.ReLU(inplace=True),
+            nn.Conv2d(in_channels, out_channels, 3), nn.ReLU(inplace=True),
+            nn.Conv2d(out_channels, out_channels, 3), nn.ReLU(inplace=True),
         )
 
 class LevelBlock(nn.Module):
     def __init__(self, depth, total_depth, in_channels, out_channels):
         """
         Block for UNet
-
         Args:
             depth (int): current depth of blocks (starts with total_depth: n,...,0)
             total_depth (int): total_depth of U-Net
@@ -331,7 +325,6 @@ class Unet(nn.Module):
     def __init__(self, depth, num_filters, output_dim):
         """
         Unet
-
         Args:
             depth (int): number of levels of UNet
             num_filters (int): number of filters for first conv layer
