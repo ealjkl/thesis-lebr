@@ -29,9 +29,10 @@ class MetaManager(object):
         """ 
         self.run_path = run_path
         self.metadata = self.create_or_load_run(run_path, restart=restart, name=name, metadata=metadata)
+        self.step_path = join(run_path, f"step{self.metadata['step']}")
         if len(glob(join(self.step_path, "*"))) == 0:
             self.update_step()
-        self.step_path = join(run_path, f"step{self.metadata[1]}")
+        
 
     def create_run(self, run_path, restart=False, name=None, metadata = None):
         """
@@ -87,3 +88,4 @@ class MetaManager(object):
         self.metadata["step"] += 1
         self.write_meta()
         os.makedirs(join(self.run_path, f"step{self.metadata['step']}"))
+        self.step_path = join(self.run_path, f"step{self.metadata['step']}")
