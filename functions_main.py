@@ -17,7 +17,7 @@ def load_losses(load_path):
     val_losses = ast.literal_eval(val_losses)
     return losses, val_losses
 
-class MetaHolder(object):
+class MetaManager(object):
     """
     Object to process metadata of the run
     """
