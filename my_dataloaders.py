@@ -47,7 +47,7 @@ class GLaSDataLoader2(object):
     def __getitem__(self, index):
         image, mask = self.index_to_filename(index)
         image, mask = self.open_and_resize(image, mask)
-        mask = mask[:,:,0].squeeze()/255
+        mask = mask[...,0].squeeze()/255
         image, mask = torch.tensor(image).T/255, np.array([mask.T, mask.T])
         mask = torch.tensor(mask)
         return image, (mask > 0.5).float()
@@ -97,7 +97,7 @@ class GLaSDataLoader3(object):
     def __getitem__(self, index):
         image, mask = self.index_to_filename(index)
         image, mask = self.open_and_resize(image, mask)
-        mask = mask[:,:,0].squeeze()/255
+        mask = mask[...,0].squeeze()/255
         image, mask = torch.tensor(image).T/255, np.array([mask.T, mask.T])
         mask = torch.tensor(mask)
         return image, (mask >  0.05).float()
@@ -146,7 +146,7 @@ class GLaSDataLoader4(object):
     def __getitem__(self, index):
         image, mask = self.index_to_filename(index)
         image, mask = self.open_and_resize(image, mask)
-        mask = mask[:,:,0].squeeze()/255
+        mask = mask[...,0].squeeze()/255
         image, mask = torch.tensor(image).T/255, np.array([mask.T, mask.T])
         mask = torch.tensor(mask)
         return image, (mask > 0.05).float()
