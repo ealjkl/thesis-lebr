@@ -63,7 +63,7 @@ class ConvODEUNet(nn.Module):
         super(ConvODEUNet, self).__init__()
         nf = num_filters
 
-        self.input_1x1 = nn.Conv2d(3, nf, 1, 1)
+        self.input_1x1 = nn.Conv2d(6, nf, 1, 1)
 
         ode_down1 = ConvODEFunc(nf, time_dependent, non_linearity)
         self.odeblock_down1 = ODEBlock(ode_down1, tol=tol, adjoint=adjoint)
